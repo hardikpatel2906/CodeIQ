@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
-function App() {
-
+const App: React.FC = () => {
   return (
-    <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <h1 className="text-3xl font-bold text-blue-600">Welcome to AI Quiz App</h1>
-        <p className="mt-2 text-lg text-gray-700">Test your knowledge with AI-generated questions!</p>
-      </div>
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;

@@ -13,7 +13,7 @@ const Login: React.FC = () => {
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-100">
             <div className="w-full max-w-md bg-white p-8 shadow-md rounded-lg">
-                <h2 className="text-2xl font-bold text-center">Login</h2>
+                <h2 className="text-2xl font-bold text-center text-black">Login</h2>
                 <form onSubmit={handleSubmit} className="mt-4">
                     <input
                         type="email"

@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import FlashCard from "../components/FlashCard";
 // import { questions } from "../data/questions";
 
 const QuizPage: React.FC = () => {
@@ -51,6 +52,7 @@ const QuizPage: React.FC = () => {
           </div>
         ))}
       </div> */}
+            <FlashCard />
         </div>
     );
 };

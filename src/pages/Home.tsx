@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const languages = [
@@ -13,15 +14,32 @@ const languages = [
 ];
 
 const Home: React.FC = () => {
+    const [searchQuery, setSearchQuery] = useState("");
+
+    /** Filter Language based on search query */
+    const filteredLanguages = languages.filter((language) =>
+        language.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
             <h1 className="text-3xl font-bold text-gray-800 mb-6">Kickstart Your Coding Journey 🚀</h1>
+            {/* Search Bar */}
+            <div className="mb-6">
+                <input
+                    type="text"
+                    placeholder="Search for a language..."
+                    className="w-full p-3 border border-gray-300 bg-white text-black rounded-full"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
             <p className="text-lg text-gray-600 mb-8">
                 Select a programming language to start answering quick questions!
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {languages.map((lang) => (
+            {filteredLanguages.map((lang, index) => (
                     <Link
                         key={lang.slug}
                         to={`/quiz/${lang.slug}`}

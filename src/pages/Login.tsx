@@ -1,13 +1,25 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { loginUser } from "../services/api";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Logging in with:", { email, password });
+        // console.log("Logging in with:", { email, password });
+        setError(null);
+
+        try {
+            const response = await loginUser({ email, password });
+            console.log("Login Successful:", response.data);
+            localStorage.setItem("token", response.data.token); // Store token
+            alert("Login Successful!");
+        } catch (err: any) {
+            setError(err.response?.data?.message || "Login failed");
+        }
     };
 
     return (
@@ -20,7 +32,7 @@ const Login: React.FC = () => {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-2 mb-3 border rounded-md bg-white"
+                        className="w-full p-2 mb-3 border rounded-md bg-white text-black"
                         required
                     />
                     <input
@@ -28,7 +40,7 @@ const Login: React.FC = () => {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full p-2 mb-3 border rounded-md bg-white"
+                        className="w-full p-2 mb-3 border rounded-md bg-white text-black"
                         required
                     />
                     <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md">

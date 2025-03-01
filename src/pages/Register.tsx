@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { registerUser } from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Register: React.FC = () => {
   const [fullName, setFullName] = useState("");
@@ -8,6 +10,9 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,8 +26,9 @@ const Register: React.FC = () => {
 
     try {
       const response = await registerUser({ fullName, email, password });
-      console.log("Registration Successful:", response.data);
+      login(response.data.token, response.data.fullName); // Save user name
       alert("Registration Successful!");
+      navigate("/");
     } catch (err: any) {
       setError(err.response?.data?.message || "Registration failed");
     }

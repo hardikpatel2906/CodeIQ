@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { loginUser } from "../services/api";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -14,9 +18,11 @@ const Login: React.FC = () => {
 
         try {
             const response = await loginUser({ email, password });
-            console.log("Login Successful:", response.data);
+            // console.log("Login Successful:", response.data);
             localStorage.setItem("token", response.data.token); // Store token
+            login(response.data.token, response.data.fullName); // Save user name
             alert("Login Successful!");
+            navigate("/");
         } catch (err: any) {
             setError(err.response?.data?.message || "Login failed");
         }

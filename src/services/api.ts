@@ -19,6 +19,11 @@ export const loginUser = async (userData: { email: string; password: string }) =
   return api.post("/login", userData);
 };
 
+export const getUserStreak = async (userId: string) => {
+  return api.get(`/streak/${userId}`)
+}
+
+
 // **Get User Profile (Protected Route)**
 export const getUserProfile = async (token: string) => {
   return api.get("/users/profile", {

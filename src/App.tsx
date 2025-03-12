@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
 import QuizPage from "./pages/QuizPage";
+import StreakDashboard from "./components/StreakDashboard";
 
 const App: React.FC = () => {
     return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
                 <Route element={<ProtectedRoute />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/quiz/:language" element={<QuizPage />} />
+                    <Route path="/daily-streak" element={<StreakDashboard />} />
                 </Route>
             </Routes>
         </Router>

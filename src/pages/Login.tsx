@@ -20,12 +20,12 @@ const Login: React.FC = () => {
 
         try {
             const response = await loginUser({ email, password });
-            // console.log("Login Successful:", response.data);
             localStorage.setItem("token", response.data.token); // Store token
-            login(response.data.token, response.data.fullName); // Save user name
+            login(response.data.token, response.data.fullName, response.data._id); // Save user name
             alert("Login Successful!");
             navigate("/");
         } catch (err: any) {
+            // console.log(err)
             setError(err.response?.data?.message || "Login failed");
         }
     };

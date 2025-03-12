@@ -1,11 +1,32 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+// import axios from "axios";
+import { getUserStreak } from "../services/api";
 
 const Navbar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const { user, logout } = useAuth(); // Get user & logout from AuthContext
+
+    const [streak, setStreak] = useState(0);
+
+    const fetchStreak = async () => {
+        if (user) {
+            try {
+                const response = await getUserStreak(user.userId);
+                setStreak(response.data.streak);
+                // console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+
+    useEffect(() => {
+        fetchStreak();
+    }, [user]);
 
     const toggleMenu = () => setIsOpen(!isOpen);
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
@@ -22,6 +43,7 @@ const Navbar: React.FC = () => {
 
                     {user ? (
                         <div className="relative">
+                            <span className="text-white mr-3">🔥 {streak} days</span>
                             <button
                                 onClick={toggleDropdown}
                                 className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-gray-200 transition"
@@ -31,7 +53,7 @@ const Navbar: React.FC = () => {
                             {dropdownOpen && (
                                 <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg">
                                     <Link to="/progress" className="block px-4 py-2 text-blue-600 hover:bg-gray-100">Your Progress</Link>
-                                    <Link to="/daily-streak" className="block px-4 py-2 text-blue-600 hover:bg-gray-100">Daily Streak</Link>
+                                    <Link to="/daily-streak" className="block px-4 py-2 text-blue-600 hover:bg-gray-100">Streak Dashboard</Link>
                                     <Link to="/update-profile" className="block px-4 py-2 text-blue-600 hover:bg-gray-100">Update Profile</Link>
                                     <Link to="/settings" className="block px-4 py-2 text-blue-600 hover:bg-gray-100">Settings</Link>
                                     <button
